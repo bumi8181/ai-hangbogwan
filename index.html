@@ -161,8 +161,9 @@ tfoot th{background:#f4e6d6}
 .stall:hover{background:rgba(255,255,255,.07)}
 .stall .no{position:absolute;z-index:1;text-shadow:0 1px 2px #000;left:0;right:0;font-size:15px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.5px;text-align:center;pointer-events:none}
 .stall.dn .no{top:8px}.stall.up .no{bottom:8px}
+.stall.fill .no{left:4px;right:auto;font-size:10px;background:rgba(0,0,0,.6);color:#fff;padding:1px 5px;border-radius:5px;text-shadow:none}
 .stall .vac{font-size:10px;font-weight:700;color:rgba(255,255,255,.28);letter-spacing:2px}
-.stall .veh{width:40px;height:72px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.45))}
+.stall .veh{max-height:92px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.45))}
 .stall.dn .veh{transform:rotate(180deg)}
 .stall .plate{position:absolute;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;background:#f4f1ea;color:#222;border-radius:3px;padding:1px 4px;white-space:nowrap}
 .stall.dn .plate{bottom:5px}.stall.up .plate{top:5px}
@@ -179,11 +180,35 @@ tfoot th{background:#f4e6d6}
 .lot.compact .stall{height:62px}
 .lot.compact .stall .no{font-size:11px}.lot.compact .stall.dn .no{top:4px}.lot.compact .stall.up .no{bottom:4px}
 .lot.compact .vac,.lot.compact .plate{display:none}
-.lot.compact .veh{width:24px;height:44px}
+.lot.compact .veh{transform:scale(.6)}.lot.compact .stall.dn .veh{transform:rotate(180deg) scale(.6)}
 .lot.compact .aisle{height:30px;font-size:13px}
 .lot.compact .median{height:8px}
 .lot.compact .rlabel{left:-34px;width:28px;font-size:10px}
 .lot.compact .gate{font-size:9px;padding:5px 2px}
+.sumline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.si{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:14px 4px;border:0;border-left:1px solid var(--line);background:transparent;text-align:center;min-width:0}
+.si:first-child{border-left:0}
+button.si:hover{background:#fbf1e6}
+.si span{font-size:12px;font-weight:700;color:var(--ink3);white-space:nowrap}
+.si b{font-size:26px;letter-spacing:-1px;line-height:1.1}
+.si b em{font-style:normal;font-size:13px;color:var(--ink3);font-weight:600;margin-left:2px;letter-spacing:0}
+.si.alert b{color:var(--bad)}
+.mapstat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.ms{text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px}
+.ms:hover{border-color:var(--acc)}
+.ms .mh{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;font-size:13px}
+.ms .bar{height:7px}
+.ms .mf{margin-top:6px;font-size:11px;color:var(--ink3);font-weight:700}
+.blds.b6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.bld.warn{border-color:#e0a24a;background:#fffaf0}.bld.warn .s{color:var(--warn)}
+.vpick{display:flex;gap:12px;align-items:center}
+.vprev{width:92px;height:150px;flex:none;border-radius:12px;background:#3d4146;display:grid;place-items:center;text-align:center;color:#aaa}
+.vprev .muted{color:#c9c9c9}
+.vgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+.vg{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+.vgimg{width:100%;height:132px;border-radius:12px;background:linear-gradient(180deg,#43484d,#383c41);display:grid;place-items:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
+.vgimg .veh{filter:drop-shadow(0 4px 4px rgba(0,0,0,.45))}
+.vg b{font-size:13px}.vg span{font-size:11px;color:var(--ink3);font-weight:700}
 .lotlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--ink2)}
 .lotlegend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 
@@ -296,7 +321,9 @@ tfoot th{background:#f4e6d6}
   .health{grid-template-columns:1fr}
   .g2,.g3{grid-template-columns:1fr}
   .form.row4,.form.row3{grid-template-columns:1fr 1fr}
-  .blds{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .blds,.blds.b6{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .si span{font-size:10px}.si b{font-size:19px}.si b em{font-size:10px}.si{padding:10px 2px}
+  .mapstat{grid-template-columns:1fr}
   .stat7{grid-template-columns:repeat(3,minmax(0,1fr))}
   .ovl{align-items:flex-end;padding:0}
   .sheet{border-radius:24px 24px 0 0;max-height:90vh;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
@@ -345,10 +372,111 @@ const I={
  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
  shield:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></svg>'
 };
-const VEH_SVG='<svg class="veh" viewBox="0 0 40 72"><rect x="3" y="1" width="34" height="70" rx="7" fill="#4f5a34"/><rect x="6" y="4" width="28" height="18" rx="4" fill="#5e6a3e"/><rect x="8" y="9" width="24" height="9" rx="2" fill="#26323c"/><rect x="5" y="25" width="30" height="43" rx="3" fill="#6b774a" stroke="#454f2c" stroke-width="1.2"/><path d="M5 35h30M5 46h30M5 57h30" stroke="#59643a" stroke-width="1.2"/><rect x="1" y="12" width="3" height="6" rx="1" fill="#2b2b2b"/><rect x="36" y="12" width="3" height="6" rx="1" fill="#2b2b2b"/></svg>';
+/* ───────── 차종 (위에서 본 모습, 앞쪽이 위) ───────── */
+const VTYPES=[
+ {k:'승용차',cat:'일반 차량'},{k:'봉고3',cat:'일반 차량'},{k:'코란도스포츠',cat:'일반 차량'},{k:'스타렉스',cat:'일반 차량'},
+ {k:'통신 박스카',cat:'통신 차량'},{k:'25인승 버스',cat:'수송 차량'},{k:'45인승 버스',cat:'수송 차량'},{k:'2.5t 군 화물차',cat:'지원 차량'},{k:'기타',cat:'기타'}];
+const VCATS=['일반 차량','통신 차량','수송 차량','지원 차량','기타'];
+const vcat=t=>(VTYPES.find(x=>x.k===t)||{cat:'기타'}).cat;
+const OLD_TYPE={'일반 차량':'승용차','지원 차량':'2.5t 군 화물차','수송 차량':'45인승 버스'};
+const wheel=(x,y,h=9)=>`<rect x="${x}" y="${y}" width="3.2" height="${h}" rx="1.2" fill="#1d1f21"/>`;
+const wheels=(w,ys,h)=>ys.map(y=>wheel(1.2,y,h)+wheel(w-4.4,y,h)).join('');
+const VSVG={
+ '승용차':[34,66,`${wheels(34,[10,46],10)}
+  <rect x="3.5" y="2" width="27" height="62" rx="10" fill="#e8ebee" stroke="#8f99a3" stroke-width=".8"/>
+  <rect x=".8" y="21" width="4" height="3.2" rx="1.2" fill="#8f99a3"/><rect x="29.2" y="21" width="4" height="3.2" rx="1.2" fill="#8f99a3"/>
+  <rect x="6" y="3.2" width="6.5" height="2.6" rx="1.2" fill="#fff4bf"/><rect x="21.5" y="3.2" width="6.5" height="2.6" rx="1.2" fill="#fff4bf"/>
+  <path d="M11 7v11M23 7v11" stroke="#cdd3d8" stroke-width=".7"/>
+  <path d="M7 19.5h20l-2.6 9h-14.8z" fill="#26323d"/><path d="M8.5 20.5h6l-1.5 6h-3z" fill="#3e5160" opacity=".7"/>
+  <rect x="9.2" y="28.5" width="15.6" height="16" rx="2.5" fill="#dde2e6"/>
+  <path d="M9.4 44.5h15.2l2 6.5h-19.2z" fill="#26323d"/>
+  <rect x="5.5" y="60.3" width="6.5" height="2.4" rx="1" fill="#d23c3c"/><rect x="22" y="60.3" width="6.5" height="2.4" rx="1" fill="#d23c3c"/>`],
+ '스타렉스':[36,74,`${wheels(36,[9,56],11)}
+  <rect x="3.5" y="2" width="29" height="70" rx="7" fill="#c7ccd2" stroke="#7d868f" stroke-width=".8"/>
+  <rect x=".8" y="13" width="4" height="3.4" rx="1.2" fill="#7d868f"/><rect x="31.2" y="13" width="4" height="3.4" rx="1.2" fill="#7d868f"/>
+  <rect x="6" y="3.2" width="7" height="2.6" rx="1.2" fill="#fff4bf"/><rect x="23" y="3.2" width="7" height="2.6" rx="1.2" fill="#fff4bf"/>
+  <path d="M6 10h24l-1.8 9h-20.4z" fill="#26323d"/>
+  <rect x="7" y="19.5" width="22" height="46" rx="3" fill="#d4d9de"/>
+  <path d="M10 22v41M26 22v41" stroke="#9ca5ad" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M7 40h22" stroke="#b9c0c6" stroke-width=".6"/>
+  <path d="M7.5 66h21l-1 4h-19z" fill="#26323d"/>
+  <rect x="4.5" y="69.6" width="5" height="1.8" rx=".8" fill="#d23c3c"/><rect x="26.5" y="69.6" width="5" height="1.8" rx=".8" fill="#d23c3c"/>`],
+ '봉고3':[36,76,`${wheels(36,[6,58],10)}
+  <rect x="3.5" y="2" width="29" height="22" rx="4" fill="#2a5ca8" stroke="#173d73" stroke-width=".8"/>
+  <rect x=".8" y="9" width="4" height="3.4" rx="1.2" fill="#173d73"/><rect x="31.2" y="9" width="4" height="3.4" rx="1.2" fill="#173d73"/>
+  <rect x="6" y="2.8" width="6" height="2.2" rx="1" fill="#fff4bf"/><rect x="24" y="2.8" width="6" height="2.2" rx="1" fill="#fff4bf"/>
+  <path d="M6 6h24l-1 5h-22z" fill="#26323d"/>
+  <rect x="6.5" y="12" width="23" height="10" rx="2" fill="#e9eef5"/>
+  <rect x="3" y="25.5" width="30" height="48" rx="1.5" fill="#8d949b" stroke="#5d646b" stroke-width=".8"/>
+  <rect x="5.5" y="28" width="25" height="43" fill="#b8bec4"/>
+  <path d="M5.5 34h25M5.5 41h25M5.5 48h25M5.5 55h25M5.5 62h25" stroke="#a1a8ae" stroke-width=".8"/>
+  <rect x="4" y="72.6" width="5" height="1.8" rx=".8" fill="#d23c3c"/><rect x="27" y="72.6" width="5" height="1.8" rx=".8" fill="#d23c3c"/>`],
+ '코란도스포츠':[36,76,`${wheels(36,[12,56],11)}
+  <rect x="3.5" y="2" width="29" height="72" rx="7" fill="#4a5058" stroke="#2c3036" stroke-width=".8"/>
+  <rect x=".8" y="24" width="4" height="3.4" rx="1.2" fill="#2c3036"/><rect x="31.2" y="24" width="4" height="3.4" rx="1.2" fill="#2c3036"/>
+  <rect x="5.5" y="3" width="7" height="2.6" rx="1.2" fill="#fff4bf"/><rect x="23.5" y="3" width="7" height="2.6" rx="1.2" fill="#fff4bf"/>
+  <path d="M12 7v13M24 7v13M18 6v14" stroke="#5c636c" stroke-width=".8"/>
+  <path d="M6.5 21h23l-2.2 7.5h-18.6z" fill="#1e262e"/>
+  <rect x="8.5" y="28.5" width="19" height="12" rx="2" fill="#555c65"/>
+  <path d="M8.5 40.5h19l1 3.5h-21z" fill="#1e262e"/>
+  <rect x="6" y="45.5" width="24" height="26" rx="1.5" fill="#262a2f"/>
+  <path d="M9 48v21M13 48v21M17 48v21M21 48v21M25 48v21" stroke="#33383e" stroke-width="1"/>
+  <rect x="4.5" y="72.2" width="5" height="1.8" rx=".8" fill="#d23c3c"/><rect x="26.5" y="72.2" width="5" height="1.8" rx=".8" fill="#d23c3c"/>`],
+ '통신 박스카':[38,84,`${wheels(38,[6,58,68],9)}
+  <rect x="4" y="2" width="30" height="19" rx="3.5" fill="#4f5a34" stroke="#323a20" stroke-width=".8"/>
+  <rect x="1.2" y="8" width="4" height="3.4" rx="1.2" fill="#323a20"/><rect x="32.8" y="8" width="4" height="3.4" rx="1.2" fill="#323a20"/>
+  <rect x="6.5" y="2.8" width="5" height="2" rx="1" fill="#e9e1a8"/><rect x="26.5" y="2.8" width="5" height="2" rx="1" fill="#e9e1a8"/>
+  <path d="M7 5.5h24l-1 5h-22z" fill="#1f2a22"/>
+  <rect x="7" y="11.5" width="24" height="8" rx="1.5" fill="#5a6640"/>
+  <rect x="2.5" y="22.5" width="33" height="59" rx="1.5" fill="#5e6a3e" stroke="#323a20" stroke-width="1"/>
+  <ellipse cx="11" cy="34" rx="6" ry="4" fill="#3f4a2a"/><ellipse cx="27" cy="46" rx="7" ry="4.5" fill="#76824f"/><ellipse cx="13" cy="58" rx="7" ry="5" fill="#2f3524"/><ellipse cx="26" cy="70" rx="6" ry="4" fill="#3f4a2a"/><ellipse cx="20" cy="29" rx="4" ry="2.5" fill="#76824f"/>
+  <rect x="11" y="24.5" width="16" height="7" rx="1" fill="#8c9466" stroke="#3a4226" stroke-width=".6"/><path d="M13 26.5h12M13 28h12M13 29.5h12" stroke="#5b633f" stroke-width=".5"/>
+  <circle cx="7" cy="40" r="2.6" fill="#22261b"/><circle cx="7" cy="40" r=".9" fill="#d9d4b4"/><path d="M7 40l-4-6" stroke="#22261b" stroke-width=".8"/>
+  <circle cx="31" cy="64" r="2.6" fill="#22261b"/><circle cx="31" cy="64" r=".9" fill="#d9d4b4"/><path d="M31 64l4 6" stroke="#22261b" stroke-width=".8"/>
+  <circle cx="19" cy="52" r="5" fill="none" stroke="#c9c3a0" stroke-width="1"/><circle cx="19" cy="52" r="1.4" fill="#c9c3a0"/>
+  <path d="M28 76v4M30 76v4M32 76v4M28 77h4M28 79h4" stroke="#2a3020" stroke-width=".7"/>
+  <rect x="3.5" y="80.6" width="5" height="1.8" rx=".8" fill="#b83a30"/><rect x="29.5" y="80.6" width="5" height="1.8" rx=".8" fill="#b83a30"/>`],
+ '2.5t 군 화물차':[40,88,`${wheels(40,[7,60,71],10)}
+  <rect x="10" y="2" width="20" height="12" rx="2" fill="#4c5730" stroke="#2e351c" stroke-width=".8"/>
+  <path d="M13 3.5v9M16 3.5v9M19 3.5v9M22 3.5v9M25 3.5v9M28 3.5v9" stroke="#3a4324" stroke-width=".7"/>
+  <rect x="5" y="3" width="5" height="6" rx="1.5" fill="#3e472a"/><rect x="30" y="3" width="5" height="6" rx="1.5" fill="#3e472a"/>
+  <circle cx="7.5" cy="4.5" r="1.3" fill="#e9e1a8"/><circle cx="32.5" cy="4.5" r="1.3" fill="#e9e1a8"/>
+  <rect x="4" y="14" width="32" height="15" rx="2" fill="#556036" stroke="#2e351c" stroke-width=".8"/>
+  <rect x="1.2" y="16" width="3.4" height="3.4" rx="1" fill="#2e351c"/><rect x="35.4" y="16" width="3.4" height="3.4" rx="1" fill="#2e351c"/>
+  <path d="M6.5 15.5h12.5v4h-12.5zM21 15.5h12.5v4h-12.5z" fill="#1f2a22"/>
+  <circle cx="20" cy="25.5" r="4.2" fill="#1d1f21"/><circle cx="20" cy="25.5" r="1.8" fill="#4c5730"/>
+  <rect x="2.5" y="31" width="35" height="55" rx="2" fill="#6b774a" stroke="#3b4326" stroke-width="1"/>
+  <path d="M2.5 38h35M2.5 46h35M2.5 54h35M2.5 62h35M2.5 70h35M2.5 78h35" stroke="#56603a" stroke-width="1.4"/>
+  <path d="M5 33v51M35 33v51" stroke="#4d5733" stroke-width=".8" stroke-dasharray="2 2"/>
+  <rect x="3.5" y="84.6" width="5" height="1.8" rx=".8" fill="#b83a30"/><rect x="31.5" y="84.6" width="5" height="1.8" rx=".8" fill="#b83a30"/>`],
+ '25인승 버스':[38,84,`${wheels(38,[10,64],11)}
+  <rect x="3.5" y="2" width="31" height="80" rx="6" fill="#f3f2ee" stroke="#8b8f93" stroke-width=".8"/>
+  <path d="M5 8c-3 0-4 2-4.5 4M33 8c3 0 4 2 4.5 4" stroke="#3b3f43" stroke-width="1.2" fill="none"/>
+  <rect x="6" y="2.8" width="6" height="2.2" rx="1" fill="#fff4bf"/><rect x="26" y="2.8" width="6" height="2.2" rx="1" fill="#fff4bf"/>
+  <path d="M5.5 6h27l-1.2 7h-24.6z" fill="#26323d"/>
+  <path d="M3.6 20h31M3.6 22h31" stroke="#2f6db5" stroke-width="1.2"/>
+  <rect x="11" y="30" width="16" height="14" rx="2" fill="#d9dbdd" stroke="#a7abaf" stroke-width=".6"/><path d="M13 33h12M13 36h12M13 39h12" stroke="#b5b9bd" stroke-width=".6"/>
+  <rect x="14" y="52" width="10" height="7" rx="1" fill="#c9cdd1"/><rect x="14" y="65" width="10" height="7" rx="1" fill="#c9cdd1"/>
+  <path d="M6 78h26l-1 3h-24z" fill="#26323d"/>
+  <rect x="4.5" y="80" width="4.5" height="1.6" rx=".8" fill="#d23c3c"/><rect x="29" y="80" width="4.5" height="1.6" rx=".8" fill="#d23c3c"/>`],
+ '45인승 버스':[42,94,`${wheels(42,[11,70,80],10)}
+  <rect x="3.5" y="2" width="35" height="90" rx="5" fill="#3e5c3a" stroke="#22351f" stroke-width=".9"/>
+  <path d="M5 9c-3 0-4 2-4.5 4.5M37 9c3 0 4 2 4.5 4.5" stroke="#1d2a1b" stroke-width="1.3" fill="none"/>
+  <rect x="6" y="2.8" width="7" height="2.2" rx="1" fill="#fff4bf"/><rect x="29" y="2.8" width="7" height="2.2" rx="1" fill="#fff4bf"/>
+  <path d="M5.5 6h31l-1.2 7.5h-28.6z" fill="#1c262e"/>
+  <rect x="6" y="15" width="30" height="74" rx="3" fill="#4a6a45"/>
+  <rect x="11" y="26" width="20" height="16" rx="2" fill="#cfd3d0" stroke="#8f9590" stroke-width=".6"/><path d="M13 29h16M13 32h16M13 35h16M13 38h16" stroke="#aeb3af" stroke-width=".6"/>
+  <rect x="16" y="50" width="10" height="7" rx="1" fill="#2c3e2a"/><rect x="16" y="66" width="10" height="7" rx="1" fill="#2c3e2a"/>
+  <path d="M8 18v68M34 18v68" stroke="#e8e2b0" stroke-width=".8" opacity=".55"/>
+  <path d="M6 88h30l-1 3h-28z" fill="#1c262e"/>
+  <rect x="4.5" y="89.6" width="5" height="1.8" rx=".8" fill="#d23c3c"/><rect x="32.5" y="89.6" width="5" height="1.8" rx=".8" fill="#d23c3c"/>`],
+ '기타':[36,70,`${wheels(36,[10,52],10)}<rect x="3.5" y="2" width="29" height="66" rx="8" fill="#b9a68c" stroke="#7d6b55" stroke-width=".8"/><path d="M7 14h22l-2 7h-18z" fill="#26323d"/><rect x="8" y="22" width="20" height="36" rx="3" fill="#cbb99f"/><path d="M8 58h20l1 5h-22z" fill="#26323d"/>`]
+};
+function vehSVG(t,s=1){const v=VSVG[t]||VSVG['기타'];return `<svg class="veh" viewBox="0 0 ${v[0]} ${v[1]}" width="${v[0]*s}" height="${v[1]*s}" role="img" aria-label="${esc(t)}">${v[2]}</svg>`}
+const vtypeOpts=cur=>VCATS.map(c=>`<optgroup label="${c}">${VTYPES.filter(x=>x.cat===c).map(x=>`<option ${x.k===cur?'selected':''}>${x.k}</option>`).join('')}</optgroup>`).join('');
 
 /* ───────── 기본 데이터 ───────── */
-const FAC=[['admin','행정반','🏢'],['commander','중대장실','🎖️'],['officers','간부연구실','📋'],['bath','목욕탕','🛁'],['wash','세면실','🚰'],['toilet','화장실','🚻'],['gym','체력단련장','🏋️'],['cyber','사이버지식정보방','💻'],['class','교육장','📚'],['dining','식당','🍽️'],['store','일반창고','📦'],['reserve','전투물자 창고','🪖'],['ammo','탄약고','🎯'],['garage','차고','🚛'],...Array.from({length:10},(_,i)=>['room'+(i+1),(i+1)+'생활관','🛏️'])];
+const FAC=[['admin','행정반','🏢'],['commander','중대장실','🎖️'],['officers','간부연구실','📋'],['bath','목욕탕','🛁'],['wash','1층 세면실','🚰'],['wash2l','2층 좌측 세면실','🚰'],['wash2r','2층 우측 세면실','🚰'],['toilet','1층 화장실','🚻'],['toilet2l','2층 좌측 화장실','🚻'],['toilet2r','2층 우측 화장실','🚻'],['gym','체력단련장','🏋️'],['cyber','사이버지식정보방','💻'],['class','교육장','📚'],['dining','식당','🍽️'],['store','일반창고','📦'],['reserve','전투물자 창고','🪖'],['ammo','탄약고','🎯'],['garage','차고','🚛'],...Array.from({length:10},(_,i)=>['room'+(i+1),(i+1)+'생활관','🛏️'])];
 const FAC_WH={store:'general',reserve:'combat',ammo:'ammo'};
 const STATUS=['임무수행가능','휴가중','작업','외진','파견','교육','기타'];
 const LEAVE=STATUS.slice(1);
@@ -381,7 +509,7 @@ function fixup(d){
   FAC.forEach(f=>{if(!d.facilities[f[0]])d.facilities[f[0]]={state:'정상',note:'',history:[]}});
   if(!d.wh)d.wh=defWh();
   if(!Array.isArray(d.vehicles)||d.vehicles.length!==40)d.vehicles=emptyVehicles();
-  d.ver=5;delete d.inventory;return d;
+  d.vehicles.forEach(v=>{if(OLD_TYPE[v.type])v.type=OLD_TYPE[v.type]});d.ver=6;delete d.inventory;return d;
 }
 function load(){
   try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.people)return fixup(v)}catch(e){}
@@ -461,6 +589,7 @@ function dash(){
   const date=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
   const g=gunCount('weapon');
   const hc=(title,icon,okN,badN,unit,fn,foot)=>{const t=okN+badN||1;return `<button class="hcard" onclick="openSheet(${fn})"><div class="h"><span>${icon} ${title}</span>${badN?pill('불량 '+badN,'bad'):pill(okN?'전체 정상':'등록 없음',okN?'ok':'gray')}</div><div class="nums"><div>정상<b style="color:var(--ok)">${okN}<small class="muted">${unit}</small></b></div><div>불량<b style="color:${badN?'var(--bad)':'var(--ink3)'}">${badN}<small class="muted">${unit}</small></b></div></div><div class="bar"><i class="o" style="width:${okN/t*100}%"></i><i class="x" style="width:${badN/t*100}%"></i></div><div class="foot">${foot} →</div></button>`};
+  const ms=(t,ok,bad,a,b,on,emp)=>{const T=ok+bad||1;return `<button class="ms ${bad?'bad':''}" onclick="${on}"><div class="mh"><b>${t}</b>${bad?pill(b+' '+bad,'bad'):pill(emp||'전체 정상',emp?'gray':'ok')}</div><div class="bar"><i class="o" style="width:${ok/T*100}%"></i><i class="x" style="width:${bad/T*100}%"></i></div><div class="mf">${a} ${ok} · ${b} ${bad}</div></button>`};
   const feed=[
     ...facBad().map(f=>({ic:'🔧',bg:'var(--badSoft)',t:`${f.name} · ${f.state}`,s:f.note||'내용 미기재',on:`openSheet(()=>sheetFac('${f.id}'))`})),
     ...carBad().map(v=>({ic:'🚛',bg:'var(--badSoft)',t:`${v.slot}번 ${v.number} · ${isBad(v.state)?v.state:'임무불가'}`,s:v.symptom||'증상 미기재',on:`openSheet(()=>sheetCar(${v.slot}))`})),
@@ -472,20 +601,20 @@ function dash(){
       <div class="heroBtns"><button class="btn pri" onclick="openSheet(sheetLeave)">열외현황 보기</button><button class="btn" onclick="openSheet(sheetFaults)">고장·부족 ${alertCount()}건</button></div></div>
     <div class="ring" style="--p:${pct}"><div><div><b>${r}/${total}</b><span>현재원 ${pct}%</span></div></div></div>
   </div>
-  <div class="kpis">
-    <div class="kpi"><div class="lb">👥 총원</div><b>${total}<small>명</small></b></div>
-    <button class="kpi click" onclick="openSheet(sheetLeave)"><div class="lb">🟠 열외현황 <span class="more">세부 →</span></div><b>${l}<small>명</small></b></button>
-    <div class="kpi"><div class="lb">🟢 임무수행가능</div><b>${r}<small>명</small></b></div>
-    <button class="kpi click ${fb+cb?'alert':''}" onclick="openSheet(sheetFaults)"><div class="lb">🔴 고장·점검 <span class="more">세부 →</span></div><b>${fb+cb}<small>건</small></b></button>
-    <button class="kpi click ${lb?'alert':''}" onclick="openSheet(sheetLow)"><div class="lb">📦 부족 물자 <span class="more">세부 →</span></div><b>${lb}<small>종</small></b></button>
-  </div>
-  <div class="health">
-    ${hc('시설','🏗️',ft-fb,fb,'곳',"()=>sheetFaults('fac')",'시설 고장현황')}
-    ${hc('차량','🚛',ct-cb,cb,'대',"()=>sheetFaults('car')",'차량 고장현황')}
-    ${hc('군수 물자','📦',items.length-lb,lb,'종','sheetLow','부족 물자 현황')}
+  <div class="sumline">
+    <div class="si"><span>👥 총원</span><b>${total}<em>명</em></b></div>
+    <button class="si" onclick="openSheet(sheetLeave)"><span>🟠 열외</span><b style="color:var(--warn)">${l}<em>명</em></b></button>
+    <div class="si"><span>🟢 임무수행가능</span><b style="color:var(--ok)">${r}<em>명</em></b></div>
+    <button class="si ${fb+cb?'alert':''}" onclick="openSheet(sheetFaults)"><span>🔴 고장·점검</span><b>${fb+cb}<em>건</em></b></button>
+    <button class="si ${lb?'alert':''}" onclick="openSheet(sheetLow)"><span>📦 부족물자</span><b>${lb}<em>종</em></b></button>
   </div>
   <div class="split">
-    <div class="card"><div class="chead"><h2>🗺️ 주둔지 배치도</h2><span class="muted">건물·주차면을 누르면 세부현황</span></div>${mapHTML(true)}</div>
+    <div class="card"><div class="chead"><h2>🗺️ 주둔지 배치도</h2><span class="muted">건물·주차면을 누르면 세부현황</span></div>
+      <div class="mapstat">
+        ${ms('🏗️ 시설',ft-fb,fb,'정상','불량',"openSheet(()=>sheetFaults('fac'))")}
+        ${ms('📦 창고·군수물자',items.length-lb,lb,'정상','부족',"openSheet(sheetLow)")}
+        ${ms('🚛 차량',ct-cb,cb,'정상','불량',"openSheet(()=>sheetFaults('car'))",ct?'':'주차 차량 없음')}
+      </div>${mapHTML(true)}</div>
     <div>
       <div class="card"><div class="chead"><h2>🔔 조치 필요</h2>${feed.length?pill(feed.length+'건','bad'):pill('이상 없음','ok')}</div>
         <div class="feed">${feed.slice(0,7).map(f=>`<button class="fitem" onclick="${f.on}"><div class="ic" style="background:${f.bg}">${f.ic}</div><div><b>${esc(f.t)}</b><span>${esc(f.s)}</span></div></button>`).join('')||'<div class="empty">모든 시설·차량·물자가 정상입니다 👍</div>'}${feed.length>7?`<button class="btn sm" onclick="openSheet(sheetFaults)">전체 ${feed.length}건 보기</button>`:''}</div></div>
@@ -501,15 +630,15 @@ function dash(){
   </div>`;
 }
 function mapHTML(withPark){
-  const b=f=>{const s=db.facilities[f[0]].state;return `<button class="bld ${isBad(s)?'bad':'ok'}" onclick="openSheet(()=>sheetFac('${f[0]}'))"><span class="e">${f[2]}</span>${esc(f[1])}<span class="s">${isBad(s)?'● '+esc(s):'● 정상'}</span></button>`};
-  return `<div class="map"><div class="blds">${FAC.filter(f=>!f[0].startsWith('room')).map(b).join('')}</div><div class="road">주둔지 내부도로</div><div class="blds">${FAC.filter(f=>f[0].startsWith('room')).map(b).join('')}</div>${withPark?`<div class="road">차량 이동로</div><div class="small" style="font-weight:700;margin-bottom:6px">🅿️ 주차장 40면 · 주차 ${cars().length}대 · 빈 칸 ${40-cars().length}면</div>${lotHTML(false,true)}`:''}</div>`;
+  const b=f=>{const s=db.facilities[f[0]].state,k=FAC_WH[f[0]],low=k?whItems(k).filter(x=>x.qty<x.min).length:0;const cls=isBad(s)?'bad':low?'warn':'ok';return `<button class="bld ${cls}" onclick="openSheet(()=>sheetFac('${f[0]}'))"><span class="e">${f[2]}</span>${esc(f[1])}<span class="s">${isBad(s)?'● '+esc(s):low?'● 부족 '+low+'종':'● 정상'}</span></button>`};
+  return `<div class="map"><div class="blds b6">${FAC.filter(f=>!f[0].startsWith('room')).map(b).join('')}</div><div class="road">주둔지 내부도로</div><div class="blds">${FAC.filter(f=>f[0].startsWith('room')).map(b).join('')}</div>${withPark?`<div class="road">차량 이동로</div><div class="small" style="font-weight:700;margin-bottom:6px">🅿️ 주차장 40면 · 주차 ${cars().length}대 · 빈 칸 ${40-cars().length}면</div>${lotHTML(false,true)}`:''}</div>`;
 }
 
 /* ───────── 주차장: 4열 × 10면 ───────── */
 function lotHTML(sel,compact){
   const stall=(s,dir)=>{const v=car(s),bad=v.number&&(isBad(v.state)||!v.mission);
     const click=sel?`carSlot=${s};draw()`:`openSheet(()=>sheetCar(${s}))`;
-    return `<button class="stall ${dir} ${bad?'bad':''} ${sel&&s===carSlot?'sel':''}" onclick="${click}" title="${s}번 주차면${v.number?' · '+esc(v.number):' · 빈 칸'}"><span class="no">${s}</span>${v.number?VEH_SVG+`<span class="plate">${esc(v.number)}</span>`:'<span class="vac">EMPTY</span>'}</button>`};
+    return `<button class="stall ${dir} ${v.number?'fill':''} ${bad?'bad':''} ${sel&&s===carSlot?'sel':''}" onclick="${click}" title="${s}번 주차면${v.number?' · '+esc(v.number):' · 빈 칸'}"><span class="no">${s}</span>${v.number?vehSVG(v.type)+`<span class="plate">${esc(v.number)}</span>`:'<span class="vac">EMPTY</span>'}</button>`};
   const row=(from,dir,label)=>`<div class="lrow"><span class="rlabel">${label}</span>${Array.from({length:10},(_,i)=>stall(from+i,dir)).join('')}</div>`;
   const aisle='<div class="aisle"><span>›</span><span>›</span><span>›</span><span>›</span><span>›</span></div>';
   return `<div class="lotwrap"><div class="lot ${compact?'compact':''}">${row(1,'dn','1열')}${aisle}${row(11,'up','2열')}<div class="median"></div>${row(21,'dn','3열')}${aisle.replace(/›/g,'‹')}${row(31,'up','4열')}<span class="gate">입구</span></div></div>
@@ -649,14 +778,15 @@ function site(){
   </div>
   <div class="card" style="margin-top:16px"><div class="chead"><h2>🗺️ 시설 배치도</h2><span class="muted">건물을 누르면 상태 수정</span></div>${mapHTML(false)}</div>
   <div class="card" style="margin-top:16px"><div class="chead"><h2>🅿️ 주차장 40면</h2><span class="muted">1열~4열 · 열마다 10면 · 칸을 누르면 아래에서 등록</span></div>${lotHTML(true)}</div>
+  <div class="card" style="margin-top:16px"><div class="chead"><h2>🚙 차종 안내</h2><span class="muted">주차 등록 시 고른 차종이 주차면에 이 모습으로 표시됩니다</span></div><div class="vgal">${VTYPES.filter(x=>x.k!=='기타').map(x=>`<div class="vg"><div class="vgimg">${vehSVG(x.k,1.2)}</div><b>${x.k}</b><span>${x.cat}</span></div>`).join('')}</div></div>
   <div class="split">
-    <div class="card"><div class="chead"><h2>🚙 차량 목록</h2><span class="muted">주차 ${cars().length}/40</span></div><div class="tw"><table><thead><tr><th>면</th><th>차량번호</th><th>종류</th><th>상태</th><th>임무</th></tr></thead><tbody>${cars().map(x=>`<tr style="cursor:pointer" onclick="carSlot=${x.slot};draw()"><td>${x.slot}</td><td><b>${esc(x.number)}</b></td><td>${esc(x.type)}</td><td>${stPill(x.state)}</td><td>${x.mission?pill('가능','ok'):pill('불가','bad')}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">주차된 차량이 없습니다. 칸을 눌러 차량을 등록하세요.</td></tr>'}</tbody></table></div></div>
+    <div class="card"><div class="chead"><h2>🚙 차량 목록</h2><span class="muted">주차 ${cars().length}/40</span></div><div class="tw"><table><thead><tr><th>면</th><th>차량번호</th><th>차종</th><th>분류</th><th>상태</th><th>임무</th></tr></thead><tbody>${cars().map(x=>`<tr style="cursor:pointer" onclick="carSlot=${x.slot};draw()"><td>${x.slot}</td><td><b>${esc(x.number)}</b></td><td>${esc(x.type)}</td><td>${vcat(x.type)}</td><td>${stPill(x.state)}</td><td>${x.mission?pill('가능','ok'):pill('불가','bad')}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">주차된 차량이 없습니다. 칸을 눌러 차량을 등록하세요.</td></tr>'}</tbody></table></div></div>
     <div class="card"><div class="chead"><h2>🚛 ${carSlot}번 주차면 <span class="muted small">(${Math.ceil(carSlot/10)}열 ${(carSlot-1)%10+1}번째)</span></h2>${v.number?(isBad(v.state)||!v.mission?pill('불량','bad'):pill('정상','ok')):pill('빈 칸','gray')}</div>${carForm(carSlot)}</div>
   </div>`;
 }
 function carForm(s){const v=car(s);return `<div class="form">
   <label class="field">차량번호<input id="cNum" maxlength="24" value="${esc(v.number)}" placeholder="예: 가상-1001"></label>
-  <label class="field">차량 종류<select id="cType"><option value="">차량 없음</option>${opts(['일반 차량','통신 박스카','지원 차량','수송 차량','기타'],v.type)}</select></label>
+  <div class="vpick"><div class="vprev" id="vprev">${v.type?vehSVG(v.type,1.5):'<span class="muted small">차종을 고르면<br>미리보기</span>'}</div><label class="field" style="flex:1">차량 종류<select id="cType" onchange="$('vprev').innerHTML=this.value?vehSVG(this.value,1.5):''"><option value="">차량 없음</option>${vtypeOpts(v.type)}</select><span class="muted small" style="display:block;margin-top:6px;font-weight:500">${v.type?'분류: '+vcat(v.type):'일반·통신·수송·지원 차량 중 선택'}</span></label></div>
   <div class="grid g2" style="gap:12px"><label class="field">차량 상태<select id="cState">${opts(FSTATE,v.state)}</select></label>
   <label class="field">임무수행<select id="cMis"><option value="1" ${v.mission?'selected':''}>🟢 가능</option><option value="0" ${!v.mission?'selected':''}>🔴 불가</option></select></label></div>
   <label class="field">주요 증상 (200자)<textarea id="cSym" maxlength="200" placeholder="예: 배터리 방전, 시동 불량">${esc(v.symptom)}</textarea></label>
