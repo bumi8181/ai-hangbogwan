@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AI 행보관</title>
 <meta name="description" content="AI 행보관 — 중대 통합관리 시연용 대시보드 (가상 데이터)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI 행보관">
+<meta property="og:description" content="행보관이 편해야 중대가 웃는다. 중대 통합관리 시연용 대시보드 (가상 데이터)">
+<meta property="og:url" content="https://ai-hangbogwan.vercel.app/">
+<meta property="og:image" content="https://ai-hangbogwan.vercel.app/thumbnail.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ai-hangbogwan.vercel.app/thumbnail.jpg">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root{
@@ -209,6 +218,26 @@ button.si:hover{background:#fbf1e6}
 .vgimg{width:100%;height:132px;border-radius:12px;background:linear-gradient(180deg,#43484d,#383c41);display:grid;place-items:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
 .vgimg .veh{filter:drop-shadow(0 4px 4px rgba(0,0,0,.45))}
 .vg b{font-size:13px}.vg span{font-size:11px;color:var(--ink3);font-weight:700}
+.homelink{cursor:pointer}.brand.homelink:hover b,.topmob.homelink:hover b,h2.homelink:hover{color:var(--acc2)}
+.patrolcard{margin-top:16px}
+.msline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-bottom:12px;border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.ml{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 13px;border:0;border-left:1px solid var(--line);background:transparent;text-align:left;min-width:0}
+.ml:first-child{border-left:0}.ml:hover{background:#fbf1e6}
+.ml .mt{font-size:13px;font-weight:800;white-space:nowrap}
+.ml .mv{font-size:12px;color:var(--ink3);font-weight:700;white-space:nowrap}
+.ml .mv b{font-size:15px;color:var(--ink)}.ml .mv b.okc{color:var(--ok)}.ml .mv b.badc{color:var(--bad)}.ml .mv em{font-style:normal}
+.ml .mb{position:absolute;left:12px;right:12px;bottom:5px;height:4px;border-radius:4px;background:#f1d6d2;overflow:hidden}
+.ml .mb i{display:block;height:100%;background:var(--ok)}
+.pmap{max-width:820px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid #d9e2cb;background:#e6eedb}
+.pmap svg{display:block;width:100%;height:auto}
+.pzone{cursor:pointer}.pzone:hover .zbg{stroke-width:3.2}
+.pbang{cursor:pointer;animation:pbang 1s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pbang{50%{transform:scale(1.14)}}
+.pwalker .bob{animation:pbob .38s ease-in-out infinite}.pwalker.stop .bob{animation:none}
+@keyframes pbob{50%{transform:translateY(-1.6px)}}
+.pbanner{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(58,42,31,.9);color:#fff;font-size:13px;font-weight:700;padding:9px 12px 9px 14px;border-radius:14px;min-height:42px}
+.pbanner.bad{background:#c9443a}.pbanner.ok{background:#2f8a55}
+.pbanner button{flex:none;border:0;background:#fff;color:#c9443a;font-weight:900;font-size:12px;border-radius:99px;padding:6px 12px;cursor:pointer}
 .lotlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--ink2)}
 .lotlegend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 
@@ -324,6 +353,7 @@ button.si:hover{background:#fbf1e6}
   .blds,.blds.b6{grid-template-columns:repeat(4,minmax(0,1fr))}
   .si span{font-size:10px}.si b{font-size:19px}.si b em{font-size:10px}.si{padding:10px 2px}
   .mapstat{grid-template-columns:1fr}
+  .ml{flex-direction:column;align-items:flex-start;gap:2px;padding:8px 8px 12px}.ml .mt{font-size:11.5px}.ml .mv{font-size:10.5px}.ml .mv b{font-size:13px}.ml .mb{left:8px;right:8px}
   .stat7{grid-template-columns:repeat(3,minmax(0,1fr))}
   .ovl{align-items:flex-end;padding:0}
   .sheet{border-radius:24px 24px 0 0;max-height:90vh;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
@@ -338,13 +368,13 @@ button.si:hover{background:#fbf1e6}
 <body>
 <div class="app">
   <aside class="side">
-    <div class="brand"><div class="logo" id="logoA"></div><div><b>AI 행보관</b><small>중대 통합관리</small></div></div>
+    <div class="brand homelink" onclick="go('dash')" title="총괄 대시보드로 이동"><div class="logo" id="logoA"></div><div><b>AI 행보관</b><small>중대 통합관리</small></div></div>
     <nav class="snav" id="snav"></nav>
     <div class="sidefoot">※ 모든 인원·장비·물자는 가상 데이터입니다.<br>※ 시연용 공유 데이터입니다. 주소를 아는 모든 사람이 같은 내용을 보고 고칠 수 있으니 실제 정보는 입력하지 마세요.</div>
   </aside>
   <main class="main">
     <header class="top">
-      <div class="topmob"><div class="logo" id="logoB"></div><b>AI 행보관</b></div>
+      <div class="topmob homelink" onclick="go('dash')" title="총괄 대시보드로 이동"><div class="logo" id="logoB"></div><b>AI 행보관</b></div>
       <div class="ttl"><h1 id="ptitle"></h1><div class="sub" id="psub"></div></div>
       <div class="topact">
         <span class="syncpill" id="sync" title="저장 상태"><i></i><span>이 기기 저장</span></span>
@@ -498,7 +528,8 @@ const defWh=()=>({
  ammo:makeWh([['5.56mm 보통탄(가상)',3000,'발'],['5.56mm 공포탄(가상)',600,'발'],['9mm 보통탄(가상)',300,'발']],[['5.56mm 보통탄(가상)',8,300],['5.56mm 공포탄(가상)',3,300],['9mm 보통탄(가상)',2,150]])
 });
 const emptyVehicles=()=>Array.from({length:40},(_,i)=>({slot:i+1,number:'',type:'',state:'정상',mission:true,symptom:''}));
-const KEY='hangbo-v5';
+const PREVIEW=false;
+const KEY=PREVIEW?'hangbo-preview':'hangbo-v5';
 const initial=()=>({ver:5,
  people:Array.from({length:100},(_,i)=>({id:i+1,name:i===0?'홍길동':NAMES[(i+3)%NAMES.length],rank:['하사','중사','상사','병장','상병','일병','이병'][i%7],room:Math.floor(i/10)+1,status:i<10?'휴가중':i<16?'작업':i<20?'외진':i<25?'파견':'임무수행가능',weapon:i%13===0?'미지급':'개인보유',bayonet:i%17===0?'미지급':'개인보유'})),
  facilities:Object.fromEntries(FAC.map(f=>[f[0],{state:'정상',note:'',history:[]}])),
@@ -517,6 +548,12 @@ function load(){
   return initial();
 }
 let db=load();
+if(PREVIEW&&!db.__seeded){/* 미리보기용 예시 고장 */
+  Object.assign(db.facilities.toilet2l,{state:'고장요청',note:'변기 막힘, 물 내려가지 않음'});
+  Object.assign(db.vehicles[0],{number:'가상-1001',type:'승용차',state:'정상',mission:true,symptom:''});
+  Object.assign(db.vehicles[2],{number:'가상-2503',type:'2.5t 군 화물차',state:'고장요청',mission:false,symptom:'배터리 방전, 시동 불량'});
+  Object.assign(db.vehicles[11],{number:'가상-3012',type:'스타렉스',state:'정상',mission:true,symptom:''});
+  db.__seeded=1;try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}}
 let view='dash',roomNo=0,query='',supTab='all',gunRoom=1,carSlot=1,leaveFilter='전체';
 let sheetFn=null,selBox='',whRot={x:0,y:0};
 
@@ -543,6 +580,7 @@ const editing=()=>{const a=document.activeElement;return !!a&&/^(INPUT|TEXTAREA|
 function applyRemote(d){if(editing()){pendingRemote=d;return}pendingRemote=null;db=fixup(d);try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}draw();renderSheet()}
 document.addEventListener('focusout',()=>setTimeout(()=>{if(pendingRemote&&!editing())applyRemote(pendingRemote)},300));
 async function cloudInit(){
+  if(PREVIEW){setSync('local');const sp=$('sync');sp.title='미리보기 · 공유 데이터와 연결 안 됨';sp.querySelector('span').textContent='미리보기 · 로컬';document.body.insertAdjacentHTML('afterbegin','<div style="position:sticky;top:0;z-index:60;background:#3a2a1f;color:#fff;text-align:center;font-size:12px;font-weight:700;padding:7px 10px">🔍 배포 전 미리보기 — 실제 공유 데이터와 연결되지 않으며, 예시 고장이 들어 있습니다</div>');return}
   if(!window.supabase){setSync('local');return}
   try{
     sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -589,7 +627,7 @@ function dash(){
   const date=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
   const g=gunCount('weapon');
   const hc=(title,icon,okN,badN,unit,fn,foot)=>{const t=okN+badN||1;return `<button class="hcard" onclick="openSheet(${fn})"><div class="h"><span>${icon} ${title}</span>${badN?pill('불량 '+badN,'bad'):pill(okN?'전체 정상':'등록 없음',okN?'ok':'gray')}</div><div class="nums"><div>정상<b style="color:var(--ok)">${okN}<small class="muted">${unit}</small></b></div><div>불량<b style="color:${badN?'var(--bad)':'var(--ink3)'}">${badN}<small class="muted">${unit}</small></b></div></div><div class="bar"><i class="o" style="width:${okN/t*100}%"></i><i class="x" style="width:${badN/t*100}%"></i></div><div class="foot">${foot} →</div></button>`};
-  const ms=(t,ok,bad,a,b,on,emp)=>{const T=ok+bad||1;return `<button class="ms ${bad?'bad':''}" onclick="${on}"><div class="mh"><b>${t}</b>${bad?pill(b+' '+bad,'bad'):pill(emp||'전체 정상',emp?'gray':'ok')}</div><div class="bar"><i class="o" style="width:${ok/T*100}%"></i><i class="x" style="width:${bad/T*100}%"></i></div><div class="mf">${a} ${ok} · ${b} ${bad}</div></button>`};
+  const ms=(t,ok,bad,a,b,on,emp)=>{const T=ok+bad||1;return `<button class="ml ${bad?'bad':''}" onclick="${on}"><span class="mt">${t}</span><span class="mv">${emp&&!ok&&!bad?`<em>${emp}</em>`:`${a} <b class="okc">${ok}</b> · ${b} <b class="${bad?'badc':''}">${bad}</b>`}</span><i class="mb"><i style="width:${ok/T*100}%"></i></i></button>`};
   const feed=[
     ...facBad().map(f=>({ic:'🔧',bg:'var(--badSoft)',t:`${f.name} · ${f.state}`,s:f.note||'내용 미기재',on:`openSheet(()=>sheetFac('${f.id}'))`})),
     ...carBad().map(v=>({ic:'🚛',bg:'var(--badSoft)',t:`${v.slot}번 ${v.number} · ${isBad(v.state)?v.state:'임무불가'}`,s:v.symptom||'증상 미기재',on:`openSheet(()=>sheetCar(${v.slot}))`})),
@@ -597,10 +635,16 @@ function dash(){
   const ammo=whItems('ammo');
   return `
   <div class="hero">
-    <div><div class="date">${date}</div><div class="tag">행보관이 편해야<br>중대가 웃는다.</div><h2>AI 행보관</h2>
+    <div><div class="date">${date}</div><div class="tag">행보관이 편해야<br>중대가 웃는다.</div><h2 class="homelink" onclick="go('dash')" title="총괄 대시보드">AI 행보관</h2>
       <div class="heroBtns"><button class="btn pri" onclick="openSheet(sheetLeave)">열외현황 보기</button><button class="btn" onclick="openSheet(sheetFaults)">고장·부족 ${alertCount()}건</button></div></div>
     <div class="ring" style="--p:${pct}"><div><div><b>${r}/${total}</b><span>현재원 ${pct}%</span></div></div></div>
   </div>
+  <div class="card patrolcard"><div class="chead"><h2>🗺️ 주둔지 순찰</h2><span class="muted">구역이나 ❗를 누르면 해당 화면으로 바로 이동</span></div>
+    <div class="msline">
+      ${ms('🏗️ 시설',ft-fb,fb,'정상','불량',"openSheet(()=>sheetFaults('fac'))")}
+      ${ms('📦 창고·군수물자',items.length-lb,lb,'정상','부족',"openSheet(sheetLow)")}
+      ${ms('🚛 차량',ct-cb,cb,'정상','불량',"openSheet(()=>sheetFaults('car'))",ct?'':'주차 차량 없음')}
+    </div>${patrolHTML()}</div>
   <div class="sumline">
     <div class="si"><span>👥 총원</span><b>${total}<em>명</em></b></div>
     <button class="si" onclick="openSheet(sheetLeave)"><span>🟠 열외</span><b style="color:var(--warn)">${l}<em>명</em></b></button>
@@ -609,15 +653,11 @@ function dash(){
     <button class="si ${lb?'alert':''}" onclick="openSheet(sheetLow)"><span>📦 부족물자</span><b>${lb}<em>종</em></b></button>
   </div>
   <div class="split">
-    <div class="card"><div class="chead"><h2>🗺️ 주둔지 배치도</h2><span class="muted">건물·주차면을 누르면 세부현황</span></div>
-      <div class="mapstat">
-        ${ms('🏗️ 시설',ft-fb,fb,'정상','불량',"openSheet(()=>sheetFaults('fac'))")}
-        ${ms('📦 창고·군수물자',items.length-lb,lb,'정상','부족',"openSheet(sheetLow)")}
-        ${ms('🚛 차량',ct-cb,cb,'정상','불량',"openSheet(()=>sheetFaults('car'))",ct?'':'주차 차량 없음')}
-      </div>${mapHTML(true)}</div>
     <div>
       <div class="card"><div class="chead"><h2>🔔 조치 필요</h2>${feed.length?pill(feed.length+'건','bad'):pill('이상 없음','ok')}</div>
         <div class="feed">${feed.slice(0,7).map(f=>`<button class="fitem" onclick="${f.on}"><div class="ic" style="background:${f.bg}">${f.ic}</div><div><b>${esc(f.t)}</b><span>${esc(f.s)}</span></div></button>`).join('')||'<div class="empty">모든 시설·차량·물자가 정상입니다 👍</div>'}${feed.length>7?`<button class="btn sm" onclick="openSheet(sheetFaults)">전체 ${feed.length}건 보기</button>`:''}</div></div>
+    </div>
+    <div>
       <div class="card"><div class="chead"><h2>🛡️ 총기 · 탄약</h2><button class="btn sm" onclick="supTab='ammo';go('supply')">탄약고 →</button></div>
         <div class="grid g3" style="gap:8px">
           <div class="note">총기 개인보유<b style="display:block;font-size:20px;color:var(--ink)">${g['개인보유']}</b></div>
@@ -633,6 +673,92 @@ function mapHTML(withPark){
   const b=f=>{const s=db.facilities[f[0]].state,k=FAC_WH[f[0]],low=k?whItems(k).filter(x=>x.qty<x.min).length:0;const cls=isBad(s)?'bad':low?'warn':'ok';return `<button class="bld ${cls}" onclick="openSheet(()=>sheetFac('${f[0]}'))"><span class="e">${f[2]}</span>${esc(f[1])}<span class="s">${isBad(s)?'● '+esc(s):low?'● 부족 '+low+'종':'● 정상'}</span></button>`};
   return `<div class="map"><div class="blds b6">${FAC.filter(f=>!f[0].startsWith('room')).map(b).join('')}</div><div class="road">주둔지 내부도로</div><div class="blds">${FAC.filter(f=>f[0].startsWith('room')).map(b).join('')}</div>${withPark?`<div class="road">차량 이동로</div><div class="small" style="font-weight:700;margin-bottom:6px">🅿️ 주차장 40면 · 주차 ${cars().length}대 · 빈 칸 ${40-cars().length}면</div>${lotHTML(false,true)}`:''}</div>`;
 }
+
+/* ───────── 주둔지 순찰 애니메이션 ───────── */
+const P_ROAD='M70 30H610A30 30 0 0 1 640 60V266A30 30 0 0 1 610 296H70A30 30 0 0 1 40 266V60A30 30 0 0 1 70 30Z';
+const P_LAYOUT={room:[90,62,250,84],dining:[350,62,210,84],fac:[90,186,150,84],store:[250,186,150,84],park:[410,186,150,84]};
+const WH_FAC=['store','reserve','ammo'];
+function goFac(id){closeSheet();go('site');openSheet(()=>sheetFac(id))}
+function goCar(s){closeSheet();carSlot=s;go('site');openSheet(()=>sheetCar(s))}
+function goWh(k){closeSheet();supTab=k;go('supply')}
+function pzones(){
+  const facIssues=ids=>ids.filter(id=>isBad(db.facilities[id].state)).map(id=>{const f=FAC.find(x=>x[0]===id),d=db.facilities[id];return{t:`${f[1]} ${d.state}`,d:d.note||'내용 미기재',go:`goFac('${id}')`}});
+  const rooms=FAC.filter(f=>f[0].startsWith('room')).map(f=>f[0]);
+  const others=FAC.map(f=>f[0]).filter(id=>!id.startsWith('room')&&!WH_FAC.includes(id)&&id!=='dining');
+  const low=lowItems();
+  return [
+    {id:'room',name:'생활관',icon:'🛏️',issues:facIssues(rooms)},
+    {id:'dining',name:'식당',icon:'🍽️',issues:facIssues(['dining'])},
+    {id:'fac',name:'시설물',icon:'🏗️',issues:facIssues(others)},
+    {id:'store',name:'창고',icon:'📦',low:low.length,issues:[...low.map(x=>({t:`${WH[x.cat].name} · ${x.name} 부족`,d:`보유 ${fmt(x.qty)} / 기준 ${fmt(x.min)} (−${fmt(x.min-x.qty)})`,go:`goWh('${x.cat}')`})),...facIssues(WH_FAC)]},
+    {id:'park',name:'주차장',icon:'🅿️',issues:carBad().map(v=>({t:`${v.slot}번 ${v.type||''} ${v.number}`,d:(isBad(v.state)?v.state:'임무불가')+(v.symptom?' · '+v.symptom:''),go:`goCar(${v.slot})`}))}
+  ].map(z=>({...z,box:P_LAYOUT[z.id]}));
+}
+const pChip=z=>z.id==='store'?(z.low?`부족 ${z.low}종`:`고장 ${z.issues.length}건`):`고장 ${z.issues.length}건`;
+const pColor=z=>!z.issues.length?'#8cc59f':(z.id==='store'&&z.low?'#e0a24a':'#c9443a');
+function zoneGo(id){const z=pzones().find(x=>x.id===id);if(!z)return;if(z.issues.length===1)(new Function(z.issues[0].go))();else openSheet(()=>sheetZone(id))}
+function sheetZone(id){const z=pzones().find(x=>x.id===id);return sh(`${z.icon} ${z.name} 점검 결과`,z.issues.length?pill(pChip(z),'bad'):pill('이상 없음','ok'))+
+  (z.issues.length?`<div class="feed">${z.issues.map(i=>`<button class="fitem" onclick="${i.go}"><div class="ic" style="background:var(--badSoft)">❗</div><div style="flex:1"><b>${esc(i.t)}</b><span>${esc(i.d)}</span></div><span class="small" style="color:var(--acc2);font-weight:700">이동 →</span></button>`).join('')}</div>`:'<div class="empty">점검 결과 이상이 없습니다 👍</div>')}
+function pDeco(z){
+  const [x,y,w]=z.box;let d='';
+  if(z.id==='park'){for(let i=0;i<5;i++){const cx=x+18+i*27,v=car(i+1);d+=`<rect x="${cx-11}" y="${y+40}" width="22" height="34" fill="none" stroke="#fff" stroke-width="1.2" opacity=".85"/>`;if(v&&v.number){const bad=isBad(v.state)||!v.mission;d+=`<rect x="${cx-7}" y="${y+44}" width="14" height="25" rx="4" fill="${bad?'#e8a39b':['#e8ebee','#4f5a34','#c7ccd2','#2a5ca8','#3e5c3a'][i]}"/><rect x="${cx-5.5}" y="${y+48}" width="11" height="5" rx="1.5" fill="#26323d"/>`}}}
+  if(z.id==='fac'){[['🛁','목욕탕'],['🚰','세면실'],['🚻','화장실']].forEach((t,i)=>{d+=`<rect x="${x+12+i*44}" y="${y+40}" width="38" height="34" rx="6" fill="#fff" stroke="#d8cbb9"/><text x="${x+31+i*44}" y="${y+58}" font-size="14" text-anchor="middle">${t[0]}</text><text x="${x+31+i*44}" y="${y+70}" font-size="7.5" text-anchor="middle" fill="#6f5a4a" font-weight="700">${t[1]}</text>`})}
+  if(z.id==='room'){for(let i=0;i<10;i++){const bad=isBad(db.facilities['room'+(i+1)].state);d+=`<rect x="${x+12+i*23}" y="${y+42}" width="19" height="30" rx="4" fill="${bad?'#fde3df':'#fff'}" stroke="${bad?'#c9443a':'#d8cbb9'}"/><text x="${x+21.5+i*23}" y="${y+61}" font-size="8" text-anchor="middle" fill="#6f5a4a" font-weight="800">${i+1}</text>`}}
+  if(z.id==='store'){[['#c99760','일반'],['#6e784a','전투'],['#4e5c3a','탄약']].forEach((t,i)=>{d+=`<rect x="${x+12+i*44}" y="${y+42}" width="38" height="30" rx="3" fill="${t[0]}"/><rect x="${x+28+i*44}" y="${y+42}" width="6" height="30" fill="rgba(255,255,255,.25)"/><text x="${x+31+i*44}" y="${y+61}" font-size="8" text-anchor="middle" fill="#fff" font-weight="800">${t[1]}</text>`})}
+  if(z.id==='dining'){d+=`<rect x="${x+12}" y="${y+42}" width="${w-24}" height="30" rx="6" fill="#fff" stroke="#d8cbb9"/>`;for(let i=0;i<6;i++)d+=`<circle cx="${x+30+i*30}" cy="${y+57}" r="8" fill="#f4e3c9" stroke="#d1b98e"/><circle cx="${x+30+i*30}" cy="${y+57}" r="3" fill="#e0a24a"/>`}
+  return d;
+}
+function pZoneSVG(z){
+  const [x,y,w,h]=z.box,n=z.issues.length,col=pColor(z),bg=!n?'#fffdf9':(z.id==='store'&&z.low?'#fffaf0':'#fff3f1');
+  return `<g class="pzone" onclick="zoneGo('${z.id}')"><title>${z.name} · ${pChip(z)}</title>
+   <rect class="zbg" x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${bg}" stroke="${col}" stroke-width="2.2"/>
+   <text x="${x+12}" y="${y+24}" font-size="15">${z.icon}</text><text x="${x+34}" y="${y+24}" font-size="13" font-weight="900" fill="#3a2a1f">${z.name}</text>
+   <rect x="${x+w-70}" y="${y+10}" width="60" height="20" rx="10" fill="${n?col:'#e3f3e8'}"/><text x="${x+w-40}" y="${y+24}" font-size="10.5" text-anchor="middle" font-weight="900" fill="${n?'#fff':'#2f8a55'}">${pChip(z)}</text>
+   ${pDeco(z)}
+   ${n?`<g class="pbang" onclick="event.stopPropagation();zoneGo('${z.id}')"><circle cx="${x+w-4}" cy="${y+4}" r="13" fill="${col}" stroke="#fff" stroke-width="2.5"/><text x="${x+w-4}" y="${y+10}" font-size="16" text-anchor="middle" font-weight="900" fill="#fff">!</text></g>`:''}
+  </g>`;
+}
+const P_WALKER=`<g transform="scale(2.1)"><g class="bob"><ellipse cx="0" cy="9" rx="6.5" ry="1.8" fill="rgba(0,0,0,.22)"/><rect x="-3.6" y="2" width="3.1" height="7" rx="1" fill="#4f5a34"/><rect x=".5" y="2" width="3.1" height="7" rx="1" fill="#4f5a34"/><rect x="-5.8" y="-6.5" width="11.6" height="10.5" rx="4" fill="#6b7a45"/><rect x="-5.8" y="1.2" width="11.6" height="1.6" fill="#3a3f29"/><circle cx="0" cy="-11.5" r="5.8" fill="#f6d2ad"/><path d="M-5.8 -12.5c0-5.2 2.6-7.4 5.8-7.4s5.8 2.2 5.8 7.4z" fill="#5f6d3c"/><rect x="-6.8" y="-13" width="13.6" height="2" rx="1" fill="#4a5530"/><circle cx="-2" cy="-10.4" r=".95" fill="#222"/><circle cx="2" cy="-10.4" r=".95" fill="#222"/><path d="M-2 -8.2q2 1.3 4 0" stroke="#7a3b2a" stroke-width=".7" fill="none"/><rect x="5" y="-3.5" width="5" height="2.6" rx=".8" fill="#2b2b2b"/></g></g>`;
+function patrolHTML(){
+  const zs=pzones(),bad=zs.filter(z=>z.issues.length);
+  return `<div class="pmap"><svg id="pmap" viewBox="0 -30 680 362">
+   <defs><pattern id="pgrass" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#e6eedb"/><circle cx="4" cy="5" r="1" fill="#d3dfc2"/><circle cx="12" cy="12" r="1" fill="#d3dfc2"/></pattern></defs>
+   <rect y="-30" width="680" height="362" fill="url(#pgrass)"/>
+   <path id="proad" d="${P_ROAD}" fill="none" stroke="#b9b1a5" stroke-width="26"/>
+   <path d="${P_ROAD}" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="10 9" opacity=".85"/>
+   <text x="640" y="10" font-size="10" text-anchor="end" fill="#6f5a4a" font-weight="800">위병소 ▸</text>
+   ${zs.map(pZoneSVG).join('')}
+   <g id="pmark"></g><g id="pwalker" class="pwalker">${P_WALKER}</g></svg></div>
+   <div class="pbanner" id="pbanner">${bad.length?`🚶 순찰 중… 점검 필요 ${bad.length}곳`:'🚶 순찰 중… 전 구역 이상 무'}</div>`;
+}
+const PT={pos:0,next:0,until:0,mode:'walk',last:0,pts:null,L:0,stops:null,cur:null};
+function pInit(){const p=$('proad');if(!p)return false;if(!PT.pts){const L=p.getTotalLength(),pts=[];for(let s=0;s<=L;s+=2){const q=p.getPointAtLength(s);pts.push([q.x,q.y])}PT.pts=pts;PT.L=L;
+  PT.stops=Object.entries(P_LAYOUT).map(([id,[x,y,w,h]])=>{const cx=x+w/2,cy=y+h/2;let bi=0,bd=1e9;pts.forEach((q,i)=>{const d=(q[0]-cx)**2+(q[1]-cy)**2;if(d<bd){bd=d;bi=i}});return{id,at:bi*2}}).sort((a,b)=>a.at-b.at);PT.pos=(PT.stops[0].at-90+PT.L)%PT.L}return true}
+const pAt=s=>PT.pts[Math.min(PT.pts.length-1,Math.round(((s%PT.L)+PT.L)%PT.L/2))];
+function pBanner(t,c=''){const b=$('pbanner');if(b){b.className='pbanner '+c;b.innerHTML=t}}
+function pMark(z,bad){const g=$('pmark');if(!g)return;const [x,y]=pAt(PT.pos);
+  g.innerHTML=bad?`<g class="pbang" onclick="zoneGo('${z.id}')"><circle cx="${x}" cy="${y-60}" r="15" fill="${pColor(z)}" stroke="#fff" stroke-width="3"/><text x="${x}" y="${y-52.5}" font-size="20" text-anchor="middle" font-weight="900" fill="#fff">!</text></g>`:
+  `<g><circle cx="${x}" cy="${y-56}" r="11" fill="#2f8a55" stroke="#fff" stroke-width="2.5"/><path d="M${x-5} ${y-56}l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></g>`}
+function pTick(now){
+  requestAnimationFrame(pTick);
+  const dt=Math.min(50,now-(PT.last||now));PT.last=now;
+  const w=$('pwalker');if(!w||!pInit())return;
+  if(now<PT.until){w.classList.add('stop')}
+  else{
+    if(PT.mode==='pause'){PT.mode='walk';const g=$('pmark');if(g)g.innerHTML='';const n=pzones().filter(z=>z.issues.length).length;pBanner(n?`🚶 순찰 중… 점검 필요 ${n}곳`:'🚶 순찰 중… 전 구역 이상 무')}
+    w.classList.remove('stop');
+    const prev=PT.pos;PT.pos=(PT.pos+dt*.085)%PT.L;
+    const s=PT.stops[PT.next];
+    const crossed=s&&((prev<=s.at&&PT.pos>=s.at)||(PT.pos<prev&&(s.at>=prev||s.at<=PT.pos)));
+    if(crossed){PT.pos=s.at;PT.mode='pause';const z=pzones().find(x=>x.id===s.id);
+      if(z.issues.length){PT.until=now+2800;pMark(z,true);const i=z.issues[0];pBanner(`<span>❗ <b>${z.name} ${pChip(z)}</b> — ${esc(i.t)} (${esc(i.d)})${z.issues.length>1?` 외 ${z.issues.length-1}건`:''}</span><button onclick="zoneGo('${z.id}')">바로가기 →</button>`,'bad')}
+      else{PT.until=now+800;pMark(z,false);pBanner(`✓ ${z.name} 이상 무 (고장 0건)`,'ok')}
+      PT.next=(PT.next+1)%PT.stops.length}
+  }
+  const [x,y]=pAt(PT.pos),[x2]=pAt(PT.pos+3);
+  w.setAttribute('transform',`translate(${x} ${y-6}) scale(${x2<x-.3?-1:1} 1)`);
+}
+requestAnimationFrame(pTick);
 
 /* ───────── 주차장: 4열 × 10면 ───────── */
 function lotHTML(sel,compact){
